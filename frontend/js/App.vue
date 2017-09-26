@@ -16,8 +16,13 @@
       </div>
     </div>
 
-    <div style="height: 300px; background-color: #303841; flex-grow: 2; height: 100vh;">
-
+    <div style="height: 300px; background-color: #303841; flex-grow: 2; height: 100vh; ">
+      <h4 style="color: #D3D6DB;">SETTINGS</h4>
+      <div style="width: 100%; height: 200px; background-color: #3A4750; padding-top: 40px;">
+        <div id="slidecontainer">
+          <input type="range" min="0" max="19" :value="this.speed" class="slider" id="myRange" v-model="speed">
+        </div>
+      </div>
     </div>
 
   </div>
@@ -34,7 +39,14 @@ export default {
       scale: 10,
       interval: 100,
       positions: [],
-      timer: null
+      timer: null,
+      speed: "8"
+    }
+  },
+
+  computed: {
+    varSpeed() {
+      return 100 + 100 * this. speed;
     }
   },
   
@@ -87,7 +99,7 @@ export default {
       this.timer = window.setInterval(() => {
         this.genMatrix()
         this.render(this.positions)
-      }, 1000);
+      }, this.varSpeed);
     },
 
     stopSim() {
@@ -150,5 +162,47 @@ a {
 
 .sim-button:hover, .sim-button:active {
   color: #842d38;
+}
+
+#slidecontainer {
+    margin: 20px 30px 20px 30px;
+}
+
+/* The slider itself */
+.slider {
+    -webkit-appearance: none;  /* Override default CSS styles */
+    appearance: none;
+    width: 100%; /* Full-width */
+    height: 8px; /* Specified height */
+    background: white; /* Grey background */
+    outline: none; /* Remove outline */
+    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+    border-radius: 999px;
+}
+
+/* Mouse-over effects */
+.slider:hover {
+    opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use webkit (Chrome, Opera, Safari, Edge) and moz (Firefox) to override default look) */ 
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 20px; /* Set a specific slider handle width */
+    height: 20px; /* Slider handle height */
+    background: #BE3144; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+     border-radius: 999px;
+}
+
+.slider::-moz-range-thumb {
+    width: 20px; /* Set a specific slider handle width */
+    height: 20px; /* Slider handle height */
+    background: #BE3144; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+    border-radius: 999px;
 }
 </style>
