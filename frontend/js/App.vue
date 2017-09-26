@@ -1,30 +1,79 @@
 <template>
   <div id="app">
-    <img src="../img/logo.png">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://gitter.im/vuejs/vue" target="_blank">Gitter Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+    <canvas id="canvas"></canvas>
   </div>
 </template>
 
 <script>
 export default {
   name: 'app',
+
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      canvas: null,
+      context: null,
+      scale: 10,
+      interval: 100,
+      positions: []
+    }
+  },
+  
+  mounted () {
+    this.setupCanvas()
+    this.genMatrix()
+    this.render(this.positions)
+  },
+
+  methods: {
+    setupCanvas () {
+      this.canvas = document.getElementById("canvas")
+      this.context = this.canvas.getContext("2d")
+      let ratio = this.getPixelRatio(this.context)
+      this.canvas.width = document.getElementById("app").clientWidth * ratio
+      this.canvas.height = (document.getElementById("app").clientWidth - 120) * ratio
+      this.canvas.style.width = `${document.getElementById("app").clientWidth}px`
+      this.canvas.style.height = `${document.getElementById("app").clientWidth - 120}px`
+      this.context.scale(ratio, ratio)
+      this.context.fillStyle = 'rgb(111, 168, 220)'
+    },
+
+    getPixelRatio (context) {
+      var backingStore = context.backingStorePixelRatio ||
+              context.webkitBackingStorePixelRatio ||
+              context.mozBackingStorePixelRatio ||
+              context.msBackingStorePixelRatio ||
+              context.oBackingStorePixelRatio ||
+              context.backingStorePixelRatio || 1
+      return (window.devicePixelRatio || 1) / backingStore
+    },
+
+    render (positions) {
+      this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
+      positions.forEach(({x, y, n}) => {
+          this.context.fillRect(x * this.scale, y * this.scale, this.scale, this.scale)
+          if (n == 0) {
+            this.context.fillStyle = 'rgb(32, 80, 129)'
+          } else if (n == 1) {
+            this.context.fillStyle = 'rgb(255, 217, 102)'
+          } else if (n == 2) {
+            this.context.fillStyle = 'rgb(218, 89, 97)'
+          } else {
+            this.context.fillStyle = 'rgb(111, 168, 220)'
+          }
+      })      
+    },
+
+    genMatrix() {
+      for (var i = 0; i < 50; i++) {
+        for (var j = 0; j < 50; j++) {
+          let num = this.getRandomInt(0, 2);
+          this.positions.push({x: j, y: i, n: num})
+        }
+      }
+    },
+
+    getRandomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
     }
   }
 }
