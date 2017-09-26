@@ -2,7 +2,9 @@
   <div id="app">
 
     <div id="pew" style="height: 300px; background-color: #D3D6DB; flex-grow: 2; height: 100vh;">
-      <div style="height: 60px; background-color: white; position: relative; top: 0; left: 0; width: 100%"></div>
+      <div style="height: 60px; background-color: white; position: relative; top: 0; left: 0; width: 100%; display: flex; align-items: center; justify-content: center;">
+        <h3 style=" color: #BE3144; text-transform: uppercase;">Infection Simulation</h3>
+      </div>
       <div style="display: flex; flex-direction: column; justify-content:center; align-items:center; margin-top: 100px;">
       <canvas id="canvas"></canvas> 
       
