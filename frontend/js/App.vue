@@ -1,6 +1,23 @@
 <template>
   <div id="app">
-    <canvas id="canvas"></canvas>
+
+    <div id="pew" style="height: 300px; background-color: #D3D6DB; flex-grow: 2; height: 100vh;">
+      <div style="height: 60px; background-color: white; position: relative; top: 0; left: 0; width: 100%"></div>
+      <div style="display: flex; flex-direction: column; justify-content:center; align-items:center; margin-top: 100px;">
+      <canvas id="canvas"></canvas> 
+      
+      
+      <div style="margin-top: 20px; color: #BE3144">
+      <a @click="simulate" class="sim-button"><i class="fa fa-play-circle fa-3x" aria-hidden="true"></i></a>
+      <a @click="stopSim" class="sim-button"><i class="fa fa-stop-circle fa-3x" aria-hidden="true"></i></a>
+      </div>
+      </div>
+    </div>
+
+    <div style="height: 300px; background-color: #303841; flex-grow: 2; height: 100vh;">
+
+    </div>
+
   </div>
 </template>
 
@@ -14,7 +31,8 @@ export default {
       context: null,
       scale: 10,
       interval: 100,
-      positions: []
+      positions: [],
+      timer: null
     }
   },
   
@@ -29,10 +47,10 @@ export default {
       this.canvas = document.getElementById("canvas")
       this.context = this.canvas.getContext("2d")
       let ratio = this.getPixelRatio(this.context)
-      this.canvas.width = document.getElementById("app").clientWidth * ratio
-      this.canvas.height = (document.getElementById("app").clientWidth - 120) * ratio
-      this.canvas.style.width = `${document.getElementById("app").clientWidth}px`
-      this.canvas.style.height = `${document.getElementById("app").clientWidth - 120}px`
+      this.canvas.width = 500
+      this.canvas.height = 500
+      this.canvas.style.width = `500px`
+      this.canvas.style.height = `500px`
       this.context.scale(ratio, ratio)
       this.context.fillStyle = 'rgb(111, 168, 220)'
     },
@@ -63,6 +81,17 @@ export default {
       })      
     },
 
+    simulate() {
+      this.timer = window.setInterval(() => {
+        this.genMatrix()
+        this.render(this.positions)
+      }, 1000);
+    },
+
+    stopSim() {
+      window.clearInterval(this.timer);
+    },
+
     genMatrix() {
       for (var i = 0; i < 50; i++) {
         for (var j = 0; j < 50; j++) {
@@ -80,13 +109,18 @@ export default {
 </script>
 
 <style>
+body {
+  margin: 0;
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  background-color: red;
+  height: 100vh;
+  display: flex;
 }
 
 h1, h2 {
@@ -104,6 +138,15 @@ li {
 }
 
 a {
-  color: #42b983;
+  color: #BE3144;
+}
+
+.sim-button {
+  margin: 0 10px 0 10px;
+  cursor: pointer;
+}
+
+.sim-button:hover, .sim-button:active {
+  color: #842d38;
 }
 </style>
