@@ -17,8 +17,10 @@ def main(args):
 	gridworld = GridWorld(args)
 	# print(gridworld.get_world_map_values())
 	ticks = 0
-	while(gridworld.count([1,2])):
+	while(gridworld.total_sick_count() > 0):
 		gridworld.tick()
+		print('Daily infections:{0}'.format(gridworld.get_daily_infections()))
+		print('Total sick people {0}'.format(gridworld.total_sick_count()))
 		ticks += 1
 		print('tick..')
 	print('FINISHED in {0} ticks!'.format(ticks))

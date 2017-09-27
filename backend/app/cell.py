@@ -34,16 +34,29 @@ class Cell(object):
 
 	# Can only spread disease if infected (normal, status == 2)
 	def spread_disease(self, neighbours):
+		"""
+		Cell tries to spread disease to neighbours
+		Returns: Number of successfully infected neighbours
+		"""
+		number_of_infected = 0
 		if self.health_status == 2: # Can spread disease
 			for neighbour in neighbours:
-				neighbour.infect()
+				if neighbour.infect():
+					number_of_infected += 1
+		return number_of_infected
 
 	def infect(self):
+		""" Cell tries to infect its neighbour
+			Returns: True if successful, else False
+		"""
 		# Possible to get infected -> healthy
 		if self.health_status == 0:
 			if random.uniform(0,1) < self.prob_infect:
 				self.health_status = 1
 				self.days_to_immune = self.random_days()
+				return True
+
+		return False
 
 	def tick(self):
 		if self.days_to_immune == 0:
