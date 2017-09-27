@@ -36,40 +36,38 @@ class Cell(object):
 	def spread_disease(self, neighbours):
 		"""
 		Cell tries to spread disease to neighbours
-		Returns: Number of successfully infected neighbours
 		"""
-		number_of_infected = 0
 		if self.health_status == 2: # Can spread disease
 			for neighbour in neighbours:
-				if neighbour.infect():
-					number_of_infected += 1
-		return number_of_infected
+				neighbour.infect()
 
 	def infect(self):
 		""" Cell tries to infect its neighbour
-			Returns: True if successful, else False
 		"""
 		# Possible to get infected -> healthy
 		if self.health_status == 0:
 			if random.uniform(0,1) < self.prob_infect:
 				self.health_status = 1
 				self.days_to_immune = self.random_days()
-				return True
-
-		return False
 
 	def tick(self):
 		if self.days_to_immune == 0:
 			self.health_status = -1 # Immune
+			return -1
+
 		elif self.health_status == 1:
 			self.health_status = 2 # Infected (Normal)
+			return 1
+
 		elif self.health_status == 2:
 			if random.uniform(0,1) < self.prob_death:
 				self.health_status = 3 # Dead
+				return 3
 			else:
 				# print(self.days_to_immune)
 				# print(self.location)
 				self.days_to_immune -= 1 # Immune
+				return None # No information to udpate
 
 
 

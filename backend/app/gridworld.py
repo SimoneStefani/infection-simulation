@@ -34,21 +34,35 @@ class GridWorld(object):
 
 	def tick(self):
 		# Spread disease
-		daily_infections = 0
 		for column in self.world:
 			for cell in column:
 				neighbours = self.get_neighbours(cell)
-				num_infected = cell.spread_disease(neighbours)
-				daily_infections += num_infected
+				cell.spread_disease(neighbours)
 
 		# Update statuses and check deaths etc (end of day)
+		daily_infections = 0
+		daily_deaths = 0
+		daily_recoveries = 0
 		for column in self.world:
 			for cell in column:
-				cell.tick()
+				information = cell.tick()
 
+				if information == 1:
+					daily_infections += 1
+				elif information == 3:
+					daily_deaths += 1
+				elif information == -1:
+					daily_recoveries =+ 1
 
 		# Update global stats (end of day)
 		self.daily_infected = daily_infections
+		
+		print('Daily deaths {0}'.format(daily_deaths))
+		print('Daily recoveries {0}'.format(daily_recoveries))
+		print('Daily infections {0}'.format(daily_infections))
+		print()
+
+
 
 	def get_neighbours(self, cell):
 		x,y = cell.location
