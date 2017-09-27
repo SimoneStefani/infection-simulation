@@ -4,18 +4,23 @@ class GridWorld(object):
 
 	def __init__(self, settings):
 		""" Object representing a square grid world/game world
-
-			@args:
-				world_size: Integer representing dimension of square grid world
-				infected_locations: List of (tuple) locations of infected people
 		"""
 
 		self.world_size = settings.world_size 
 		self.world = self._init_world(settings.world_size, settings.infected_locations,
 			settings.chance_of_infection, settings.chance_of_death, settings.sick_days_min_max)
 
-		# Stats
-		self.daily_infected = 0
+		# STATS
+		self.stats = {
+			'daily_deaths': 0,
+			'daily_recoveries': 0,
+			'daily_infections': 0,
+			'total_cum_deaths': 0,
+			'total_cum_infections': 0,
+			'total_cum_immune': 0,
+			'total_healthy': self.world_size ** 2,
+			'total_sick': 0
+		}
 
 	def _init_world(self, world_size, infected_locations, prob_infect, prob_death, sick_day_range):
 		infected_locations = set(infected_locations) # convert list to set (unless already done...)
@@ -39,7 +44,7 @@ class GridWorld(object):
 				neighbours = self.get_neighbours(cell)
 				cell.spread_disease(neighbours)
 
-		# Update statuses and check deaths etc (end of day)
+		# Update statuses and check deaths, recoveries etc (end of day)
 		daily_infections = 0
 		daily_deaths = 0
 		daily_recoveries = 0
@@ -54,15 +59,31 @@ class GridWorld(object):
 				elif information == -1:
 					daily_recoveries =+ 1
 
-		# Update global stats (end of day)
-		self.daily_infected = daily_infections
+		# Update global stats
+		self.stats['daily_deaths'] = daily_deaths
+		self.stats['daily_recoveries'] = daily_recoveries
+		self.stats['daily_infections'] = daily_infections
+
+		self.stats['total_cum_deaths'] += daily_deaths
+		self.stats['total_cum_infections'] += daily_infections
+		self.stats['total_cum_immune'] += daily_recoveries
+
+		self.stats['total_healthy'] -= daily_infections # Prevent to go below zero...?
+		not_sick_count = self.stats['total_healthy'] + self.stats['total_cum_deaths'] + self.stats['total_cum_immune']
+		self.stats['total_sick'] = (self.world_size**2) - not_sick_count
 		
-		print('Daily deaths {0}'.format(daily_deaths))
-		print('Daily recoveries {0}'.format(daily_recoveries))
-		print('Daily infections {0}'.format(daily_infections))
+		# Print stats
+		print('Daily deaths: {0}'.format(self.stats['daily_deaths']))
+		print('Daily recoveries: {0}'.format(self.stats['daily_recoveries']))
+		print('Daily infections: {0}'.format(self.stats['daily_infections']))
+		print('-'*20)
+		print('Total sick people: {0}'.format(self.stats['total_sick']))
+		print('Total healthy people: {0}'.format(self.stats['total_healthy']))
+		print('Total dead people: {0}'.format(self.stats['total_cum_deaths']))
+		print('Total immune people: {0}'.format(self.stats['total_cum_immune']))
 		print()
 
-
+		return self.stats['total_sick']
 
 	def get_neighbours(self, cell):
 		x,y = cell.location
@@ -79,37 +100,4 @@ class GridWorld(object):
 	def get_world_map_values(self):
 		""" Returns a 2d list of cells' health status """
 		return [list(map(lambda cell: cell.get_status(), column)) for column in self.world]
-
-	# Private method not meant to be used outside of class
-	def _count(self, status):
-		count = 0
-		status = set(status)
-		for column in self.world:
-			for cell in column:
-				if cell.get_status() in status:
-					count += 1
-		return count
-
-	# 0 -> Healthy
-	# 1 -> Recently infected
-	# 2 -> Infected (normal)
-	# 3 -> Dead
-
-	# COMBINE ALL THESE TO COUNT ALL STATUSes at end of day
-	def total_sick_count(self):
-		sick_count = self._count(status=[1,2])
-		return sick_count
-
-	def total_dead_count(self):
-		sick_count = self._count(status=[3])
-		return sick_count
-
-	def total_healthy(self):
-		sick_count = self._count(status=[0])
-		return sick_count
-
-	def get_daily_infections(self):
-		return self.daily_infected
-
-
 
