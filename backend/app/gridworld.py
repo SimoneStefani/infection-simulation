@@ -2,7 +2,7 @@ from cell import Cell
 
 class GridWorld(object):
 
-	def __init__(self, world_size, infected_locations):
+	def __init__(self, settings):
 		""" Object representing a square grid world/game world
 
 			@args:
@@ -10,20 +10,20 @@ class GridWorld(object):
 				infected_locations: List of (tuple) locations of infected people
 		"""
 
-		self.world = self._init_world(world_size, infected_locations)
-		self.world_size = world_size
+		self.world_size = settings.world_size 
+		self.world = self._init_world(settings.world_size, settings.infected_locations,
+			settings.chance_of_infection, settings.chance_of_death, settings.sick_days_min_max)
 
-
-	def _init_world(self, world_size, infected_locations):
+	def _init_world(self, world_size, infected_locations, prob_infect, prob_death, sick_day_range):
 		infected_locations = set(infected_locations) # convert list to set (unless already done...)
 		world_map = []
 		for x in range(world_size):
 			column = []
 			for y in range(world_size):
 				if (x,y) in infected_locations:
-					column.append(Cell((x,y), health_status=1))
+					column.append(Cell((x,y), prob_infect, prob_death, sick_day_range, health_status=1))
 				else:
-					column.append(Cell((x,y), health_status=0))
+					column.append(Cell((x,y), prob_infect, prob_death, sick_day_range))
 
 			world_map.append(column)
 

@@ -2,18 +2,18 @@ import argparse
 
 def parse_input():
 	parser = argparse.ArgumentParser()
-	parser.add_argument("--n", help="Size of population", type=int, default=2, choices=range(2,20))
-	parser.add_argument('--locations', nargs='+', type=int, required=True)
+	parser.add_argument("--world_size", help="Size of population", type=int, default=2, choices=range(2,21))
+	parser.add_argument('--infected_locations', nargs='+', type=int, required=True,)
 	parser.add_argument('--chance_of_infection', type=restricted_float, default=0.50)
 	parser.add_argument('--chance_of_death', type=restricted_float, default=0.50)
 	parser.add_argument('--sick_days_min_max', nargs='+', type=int, default=[1, 6])
 	args = parser.parse_args()
 
 	check_day_range(args.sick_days_min_max)
-	check_locations(args.locations, args.n)
+	check_locations(args.infected_locations, args.world_size)
 
 	# Zip input in form of 1 2 3 4 to coordinate tuples of form [(1,2), (3,4)]
-	args.locations = list(zip(args.locations[0::2], args.locations[1::2]))
+	args.infected_locations = list(zip(args.infected_locations[0::2], args.infected_locations[1::2]))
 
 	return args
 

@@ -14,7 +14,7 @@ def tickSim():
 	return gridworld.get_world_map_values()
 
 def main(args):
-	gridworld = GridWorld(world_size=args.n, infected_locations=args.locations)
+	gridworld = GridWorld(args)
 	# print(gridworld.get_world_map_values())
 	ticks = 0
 	while(gridworld.count([1,2])):
