@@ -1,5 +1,6 @@
 from .gridworld import GridWorld
 from .util import parse_input
+from collections import namedtuple
 import matplotlib.pyplot as plt
 
 # Global instance of GridWorld. It is used by the client in order
@@ -11,13 +12,14 @@ grid_world = None
 # used by the JavaScript client when the user press play.
 def generate_world():
     global grid_world
-    grid_world = GridWorld({
-        "world_size": 40,
-        "infected_locations": [(5, 20), (35, 4)],
-        "sick_days_min_max": [1, 6],
-        "chance_of_death": 0.5,
-        "chance_of_infection": 0.5
-    })
+    Args = namedtuple('Args',
+                      'world_size infected_locations sick_days_min_max chance_of_death chance_of_infection')
+    params = Args(world_size=40,
+                  infected_locations=[(5, 20), (35, 4)],
+                  sick_days_min_max=[1, 6],
+                  chance_of_death=0.5,
+                  chance_of_infection=0.5)
+    grid_world = GridWorld(params)
 
 
 # Advance the simulation on the global instance of GridWorld of

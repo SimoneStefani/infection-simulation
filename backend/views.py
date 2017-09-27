@@ -16,7 +16,7 @@ def index(request):
 
 
 def tick(request):
-    positions = simulation.tickSim()
+    positions = simulation.tick_simulation()
 
     objPos = []
 
@@ -28,5 +28,5 @@ def tick(request):
 
 
 def setup(request):
-    simulation.genWorld()
+    simulation.generate_world()
     return HttpResponse(json.dumps("status: ok"), content_type="application/json")
