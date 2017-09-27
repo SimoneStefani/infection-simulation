@@ -1,4 +1,4 @@
-from gridworld import GridWorld
+from .gridworld import GridWorld
 import argparse
 import matplotlib.pyplot as plt
 
@@ -19,6 +19,8 @@ import matplotlib.pyplot as plt
 # plt.colorbar()
 # plt.show()
 
+gridworld = None
+
 def go(args):
 	gridworld = GridWorld(world_size=args.N, infected_locations=[(0,0)])
 	print(gridworld.get_world_map_values())
@@ -33,6 +35,15 @@ def go(args):
 	plt.imshow(gridworld.get_world_map_values())
 	plt.colorbar()
 	plt.show()
+
+def genWorld():
+	global gridworld 
+	gridworld = GridWorld(world_size=50, infected_locations=[(5,20), (35,4)])
+
+def tickSim():
+	global gridworld
+	gridworld.tick()
+	return gridworld.get_world_map_values()
 
 
 def main():

@@ -2,6 +2,7 @@ from django.shortcuts import render
 from random import randint
 from django.http import HttpResponse
 import json
+from .app import simulation
 
 
 def index(request):
@@ -16,10 +17,16 @@ def index(request):
 
 def tick(request):
 
-    positions = []
+    positions = simulation.tickSim()
 
-    for i in range(0, 50):
-        for j in range(0, 50):
-            positions.append({"x": j, "y": i, "n": randint(0, 2)})
+    objPos = []
 
-    return HttpResponse(json.dumps(positions), content_type="application/json")
+    for x, column in enumerate(positions):
+        for y, cell_value in enumerate(column):
+            objPos.append({"x": x, "y": y, "n": cell_value})
+
+    return HttpResponse(json.dumps(objPos), content_type="application/json")
+
+def setup(request):
+    simulation.genWorld()
+    return HttpResponse(json.dumps("status: ok"), content_type="application/json")

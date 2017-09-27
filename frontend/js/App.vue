@@ -10,7 +10,7 @@
       
       
       <div style="margin-top: 20px; color: #BE3144">
-      <a @click="simulate" class="sim-button"><i class="fa fa-play-circle fa-3x" aria-hidden="true"></i></a>
+      <a @click="setupSim" class="sim-button"><i class="fa fa-play-circle fa-3x" aria-hidden="true"></i></a>
       <a @click="stopSim" class="sim-button"><i class="fa fa-stop-circle fa-3x" aria-hidden="true"></i></a>
       </div>
       </div>
@@ -52,7 +52,7 @@ export default {
   
   mounted () {
     this.setupCanvas()
-    this.getMatrix()
+    //this.getMatrix()
     this.render(this.positions)
   },
 
@@ -84,15 +84,30 @@ export default {
       positions.forEach(({x, y, n}) => {
           this.context.fillRect(x * this.scale, y * this.scale, this.scale, this.scale)
           if (n == 0) {
-            this.context.fillStyle = 'rgb(32, 80, 129)'
+            this.context.fillStyle = 'rgb(32, 80, 129)' //alive (dark blue)
           } else if (n == 1) {
-            this.context.fillStyle = 'rgb(255, 217, 102)'
+            this.context.fillStyle = 'rgb(255, 217, 102)' //recently infected (yellow)
           } else if (n == 2) {
-            this.context.fillStyle = 'rgb(218, 89, 97)'
+            this.context.fillStyle = 'rgb(218, 89, 97)' // infected (red)
+          } else if (n == 3) {
+            this.context.fillStyle = 'rgb(38, 38, 38)' // dead (gray)
+          } else if (n == -1) {
+            this.context.fillStyle = 'rgb(219, 102, 255)' // immune (purple)
           } else {
             this.context.fillStyle = 'rgb(111, 168, 220)'
           }
       })      
+    },
+
+    setupSim() {
+      axios.get('/api/setup')
+        .then((response) => {
+          console.log(response.data);
+          this.simulate()
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
 
     simulate() {

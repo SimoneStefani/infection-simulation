@@ -20,5 +20,6 @@ from backend import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api/tick', views.tick, name='tick'),
+    url(r'^api/setup', views.setup, name='setup'),
     url(r'^$', include('backend.urls')),
 ]
