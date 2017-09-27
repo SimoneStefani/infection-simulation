@@ -9,3 +9,4 @@ build/
 webpack-stats.json
 package-lock.json
 frontend/bundles/*
+.idea

@@ -6,7 +6,7 @@ gridworld = None
 
 def genWorld():
 	global gridworld 
-	gridworld = GridWorld(world_size=50, infected_locations=[(5,20), (35,4)])
+	gridworld = GridWorld(world_size=40, infected_locations=[(5,20), (35,4)])
 
 def tickSim():
 	global gridworld
