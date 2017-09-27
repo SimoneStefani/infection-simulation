@@ -52,7 +52,7 @@ export default {
   
   mounted () {
     this.setupCanvas()
-    this.genMatrix()
+    this.getMatrix()
     this.render(this.positions)
   },
 
@@ -97,7 +97,7 @@ export default {
 
     simulate() {
       this.timer = window.setInterval(() => {
-        this.genMatrix()
+        this.getMatrix()
         this.render(this.positions)
       }, this.varSpeed);
     },
@@ -106,13 +106,17 @@ export default {
       window.clearInterval(this.timer);
     },
 
-    genMatrix() {
-      for (var i = 0; i < 50; i++) {
-        for (var j = 0; j < 50; j++) {
-          let num = this.getRandomInt(0, 2);
-          this.positions.push({x: j, y: i, n: num})
-        }
-      }
+    getMatrix() {
+
+      axios.get('/api/tick')
+        .then((response) => {
+          console.log(response.data);
+          this.positions = response.data
+          this.render(this.positions)
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
 
     getRandomInt(min, max) {
