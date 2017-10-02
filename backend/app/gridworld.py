@@ -1,4 +1,4 @@
-from .cell import Cell
+from cell import Cell
 
 
 # Object representing a square grid world/game world
@@ -46,12 +46,20 @@ class GridWorld(object):
         daily_infections = 0
         daily_deaths = 0
         daily_recoveries = 0
+        total_sick = 0
+        total_healthy = 0
+
         for column in self.world:
             for cell in column:
                 information = cell.tick()
 
-                if information == 1:
+                if information is None:
+                    total_healthy += 1
+                elif information == 1:
                     daily_infections += 1
+                    total_sick += 1
+                elif information == 2:
+                    total_sick += 1
                 elif information == 3:
                     daily_deaths += 1
                 elif information == -1:
@@ -66,8 +74,8 @@ class GridWorld(object):
         self.stats['total_cum_infections'] += daily_infections
         self.stats['total_cum_immune'] += daily_recoveries
 
-        self.stats['total_healthy'] -= (daily_infections + daily_deaths - daily_recoveries)
-        self.stats['total_sick'] += (daily_infections - daily_recoveries)
+        self.stats['total_sick'] = total_sick
+        self.stats['total_healthy'] = self.world_size ** 2 - total_sick - self.stats['total_cum_deaths']
 
         return self.world
 

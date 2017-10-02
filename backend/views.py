@@ -2,7 +2,7 @@ from django.shortcuts import render
 from random import randint
 from django.http import HttpResponse
 import json
-from .app import simulation
+from .app import simulate
 
 
 def index(request):
@@ -16,7 +16,7 @@ def index(request):
 
 
 def tick(request):
-    positions = simulation.tick_simulation()
+    positions = simulate.tick_simulation()
 
     objPos = []
 
@@ -28,5 +28,5 @@ def tick(request):
 
 
 def setup(request):
-    simulation.generate_world()
+    simulate.generate_world()
     return HttpResponse(json.dumps("status: ok"), content_type="application/json")

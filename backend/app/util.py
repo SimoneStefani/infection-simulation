@@ -14,7 +14,6 @@ def parse_input():
     parser.add_argument('--sick_days_min_max', nargs='+', type=int,
                         default=[1, 6])
     args = parser.parse_args()
-    print(args)
 
     check_day_range(args.sick_days_min_max)
     check_locations(args.infected_locations, args.world_size)

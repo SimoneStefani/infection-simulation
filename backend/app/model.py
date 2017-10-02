@@ -1,4 +1,4 @@
-from .gridworld import GridWorld
+from gridworld import GridWorld
 
 grid_world = None
 
@@ -26,7 +26,7 @@ def get_world_representation():
 
 def get_world_stats():
     global grid_world
-    return grid_world.get_stats()
+    return grid_world.get_world_stats()
 
 
 def print_statistics():
