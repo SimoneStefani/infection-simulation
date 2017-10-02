@@ -66,37 +66,25 @@ class GridWorld(object):
         self.stats['total_cum_infections'] += daily_infections
         self.stats['total_cum_immune'] += daily_recoveries
 
-        self.stats['total_healthy'] -= daily_infections  # Prevent to go below zero...?
-        not_sick_count = self.stats['total_healthy'] + self.stats['total_cum_deaths'] + self.stats['total_cum_immune']
-        self.stats['total_sick'] = (self.world_size ** 2) - not_sick_count
+        self.stats['total_healthy'] -= (daily_infections + daily_deaths - daily_recoveries)
+        self.stats['total_sick'] += (daily_infections - daily_recoveries)
 
-        # Print stats
-        print('Daily deaths: {0}'.format(self.stats['daily_deaths']))
-        print('Daily recoveries: {0}'.format(self.stats['daily_recoveries']))
-        print('Daily infections: {0}'.format(self.stats['daily_infections']))
-        print('-' * 20)
-        print('Total sick people: {0}'.format(self.stats['total_sick']))
-        print('Total healthy people: {0}'.format(self.stats['total_healthy']))
-        print('Total dead people: {0}'.format(self.stats['total_cum_deaths']))
-        print('Total immune people: {0}'.format(self.stats['total_cum_immune']))
-        print()
-
-        return self.stats['total_sick']
+        return self.world
 
     def get_neighbours(self, cell):
         x, y = cell.location
-        # print(cell.location)
-        space = range(-1, 2)
-        # (x+i,y+j)
-        neighbours = [self.world[x + i][y + j] for i in space for j in space if
-                      (x + i) in range(0, self.world_size) and (y + j) in range(
-                          0, self.world_size)]
-        neighbours.remove(cell)
+
+        offsets = [(-1, -1), (0, -1), (1, -1), (-1, 0), (1, 0), (-1, 1), (0, 1), (1, 1)]
+        neighbours = []
+
+        for i, j in offsets:
+            if (x + i) in range(0, self.world_size) and (y + j) in range(0, self.world_size):
+                neighbours.append(self.world[x + i][y + j])
+
         return neighbours
 
     def get_world_map(self):
         return self.world
 
-    def get_world_map_values(self):
-        """ Returns a 2d list of cells' health status """
-        return [list(map(lambda cell: cell.get_status(), column)) for column in self.world]
+    def get_world_stats(self):
+        return self.stats
