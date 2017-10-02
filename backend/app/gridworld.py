@@ -3,28 +3,23 @@ from .cell import Cell
 
 # Object representing a square grid world/game world
 class GridWorld(object):
-    def __init__(self, settings):
-        self.world_size = settings.world_size
-        self.world = self._init_world(settings.world_size,
-                                      settings.infected_locations,
-                                      settings.chance_of_infection,
-                                      settings.chance_of_death,
-                                      settings.sick_days_min_max)
+    def __init__(self, world_size, infected_locations, prob_infect, prob_death, sick_day_range):
+        self.world_size = world_size
+        self.world = self._init_world(world_size, infected_locations, prob_infect, prob_death, sick_day_range)
 
-        # STATS
+        # Statistics
         self.stats = {
             'daily_deaths': 0,
             'daily_recoveries': 0,
-            'daily_infections': 0,
+            'daily_infections': len(infected_locations),
             'total_cum_deaths': 0,
-            'total_cum_infections': 0,
+            'total_cum_infections': len(infected_locations),
             'total_cum_immune': 0,
-            'total_healthy': self.world_size ** 2,
-            'total_sick': 0
+            'total_healthy': self.world_size ** 2 - len(infected_locations),
+            'total_sick': len(infected_locations)
         }
 
-    def _init_world(self, world_size, infected_locations, prob_infect,
-                    prob_death, sick_day_range):
+    def _init_world(self, world_size, infected_locations, prob_infect, prob_death, sick_day_range):
         # Convert list to set (unless already done...)
         infected_locations = set(infected_locations)
         world_map = []
@@ -32,12 +27,9 @@ class GridWorld(object):
             column = []
             for y in range(world_size):
                 if (x, y) in infected_locations:
-                    column.append(
-                        Cell((x, y), prob_infect, prob_death, sick_day_range,
-                             health_status=1))
+                    column.append(Cell((x, y), prob_infect, prob_death, sick_day_range, health_status=1))
                 else:
-                    column.append(
-                        Cell((x, y), prob_infect, prob_death, sick_day_range))
+                    column.append(Cell((x, y), prob_infect, prob_death, sick_day_range))
 
             world_map.append(column)
 
@@ -63,7 +55,7 @@ class GridWorld(object):
                 elif information == 3:
                     daily_deaths += 1
                 elif information == -1:
-                    daily_recoveries = + 1
+                    daily_recoveries += 1
 
         # Update global stats
         self.stats['daily_deaths'] = daily_deaths
@@ -74,10 +66,8 @@ class GridWorld(object):
         self.stats['total_cum_infections'] += daily_infections
         self.stats['total_cum_immune'] += daily_recoveries
 
-        self.stats[
-            'total_healthy'] -= daily_infections  # Prevent to go below zero...?
-        not_sick_count = self.stats['total_healthy'] + self.stats[
-            'total_cum_deaths'] + self.stats['total_cum_immune']
+        self.stats['total_healthy'] -= daily_infections  # Prevent to go below zero...?
+        not_sick_count = self.stats['total_healthy'] + self.stats['total_cum_deaths'] + self.stats['total_cum_immune']
         self.stats['total_sick'] = (self.world_size ** 2) - not_sick_count
 
         # Print stats
@@ -109,5 +99,4 @@ class GridWorld(object):
 
     def get_world_map_values(self):
         """ Returns a 2d list of cells' health status """
-        return [list(map(lambda cell: cell.get_status(), column)) for column in
-                self.world]
+        return [list(map(lambda cell: cell.get_status(), column)) for column in self.world]

@@ -2,9 +2,8 @@ import random
 
 
 class Cell(object):
-    def __init__(self, location, prob_infect, prob_death, sick_day_range,
-                 health_status=0):
-        """ Object representing individual Cell in gridworld
+    def __init__(self, location, prob_infect, prob_death, sick_day_range, health_status=0):
+        """Object representing individual Cell in gridworld
 
             @args:
                 location: Tuple representing board location
@@ -14,9 +13,9 @@ class Cell(object):
                         1 -> Recently infected
                         2 -> Infected (normal)
                         3 -> Dead
+                        -1 -> Immune
         """
-        self.random_days = lambda: random.randint(sick_day_range[0],
-                                                  sick_day_range[1])
+        self.random_days = lambda: random.randint(sick_day_range[0], sick_day_range[1])
 
         if health_status == 1:
             self.days_to_immune = self.random_days()
