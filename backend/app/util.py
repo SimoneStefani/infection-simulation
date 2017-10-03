@@ -1,3 +1,9 @@
+#!/usr/bin/env python3
+"""Utility class for argument parsing in CL"""
+__author__ = "Cedric Seger"
+__copyright__ = "Copyright 2017, Cedric Seger and Simone Stefani"
+__license__ = "MIT"
+
 import argparse
 
 

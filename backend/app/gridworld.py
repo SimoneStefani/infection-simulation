@@ -1,7 +1,12 @@
+#!/usr/bin/env python3
+"""Representation of the world grid populated and relevant actions"""
+__author__ = "Cedric Seger, Simone Stefani"
+__copyright__ = "Copyright 2017, Cedric Seger and Simone Stefani"
+__license__ = "MIT"
+
 from cell import Cell
 
 
-# Object representing a square grid world/game world
 class GridWorld(object):
     def __init__(self, world_size, infected_locations, prob_infect, prob_death, sick_day_range):
         self.world_size = world_size
@@ -19,6 +24,8 @@ class GridWorld(object):
             'total_sick': len(infected_locations)
         }
 
+    # Create a N by N matrix and populate it with cell objects. Take care of
+    # setting the infected cells.
     def _init_world(self, world_size, infected_locations, prob_infect, prob_death, sick_day_range):
         # Convert list to set (unless already done...)
         infected_locations = set(infected_locations)
@@ -35,6 +42,9 @@ class GridWorld(object):
 
         return world_map
 
+    # Advance the state of the world of one day. First loop through the cells
+    # and spread the infection. Then compute the new state of each cell and
+    # update the statistics of the world.
     def tick(self):
         # Spread disease
         for column in self.world:
@@ -47,22 +57,19 @@ class GridWorld(object):
         daily_deaths = 0
         daily_recoveries = 0
         total_sick = 0
-        total_healthy = 0
 
         for column in self.world:
             for cell in column:
-                information = cell.tick()
+                state = cell.tick()
 
-                if information is None:
-                    total_healthy += 1
-                elif information == 1:
+                if state == 1:
                     daily_infections += 1
                     total_sick += 1
-                elif information == 2:
+                elif state == 2:
                     total_sick += 1
-                elif information == 3:
+                elif state == 3:
                     daily_deaths += 1
-                elif information == -1:
+                elif state == -1:
                     daily_recoveries += 1
 
         # Update global stats
@@ -79,6 +86,7 @@ class GridWorld(object):
 
         return self.world
 
+    # Determine the neighbours of a given cell.
     def get_neighbours(self, cell):
         x, y = cell.location
 
@@ -91,8 +99,10 @@ class GridWorld(object):
 
         return neighbours
 
+    # Return the world object as a N by N matrix containing cell objects.
     def get_world_map(self):
         return self.world
 
+    # Return a dictionary with the statistics of the world.
     def get_world_stats(self):
         return self.stats
