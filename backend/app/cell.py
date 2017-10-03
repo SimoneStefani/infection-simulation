@@ -1,35 +1,32 @@
+#!/usr/bin/env python3
+"""Representation of a cell (individual) and relevant actions"""
+__author__ = "Cedric Seger, Simone Stefani"
+__copyright__ = "Copyright 2017, Cedric Seger and Simone Stefani"
+__license__ = "MIT"
+
 import random
 
 
 class Cell(object):
     def __init__(self, location, prob_infect, prob_death, sick_day_range, health_status=0):
-        """Object representing individual Cell in gridworld
 
-            @args:
-                location: Tuple representing board location
-                health_status: Integer specifying status of Cell, default to healthy
-                    Possible Values:
-                        0 -> Healthy
-                        1 -> Recently infected
-                        2 -> Infected (normal)
-                        3 -> Dead
-                        -1 -> Immune
-        """
         self.random_days = lambda: random.randint(sick_day_range[0], sick_day_range[1])
 
         if health_status == 1:
             self.days_to_immune = self.random_days()
         else:
-            self.days_to_immune = None  # Replace with random number (consider removing)
+            self.days_to_immune = None
 
         self.location = location  # Tuple representing location --> Used for getting neighbours
-        self.health_status = health_status  # Healthy, immune, dead, ill, recently_infected
+        self.health_status = health_status  # -1 = immune, 0 = healthy, 1 = just infected, 2 = sick 3 = dead
         self.prob_infect = prob_infect
         self.prob_death = prob_death
 
+    # String representation of the cell
     def __str__(self):
         return str(self.health_status)
 
+    # Get status of the cell
     def get_status(self):
         return self.health_status
 
@@ -48,6 +45,7 @@ class Cell(object):
                 self.health_status = 1
                 self.days_to_immune = self.random_days()
 
+    # Evaluate and advance state of a cell
     def tick(self):
         if self.days_to_immune == 0:
             self.health_status = -1  # Immune
