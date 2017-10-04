@@ -42,8 +42,8 @@ def restricted_float(x):
 
 # Ensure that the days specified by the users follow a logical order.
 def check_day_range(day_range):
-    if day_range[0] > day_range[1]:
-        msg = 'argument --sick_days_min_max: Specified range: {} does not follow format [min, max]'.format(
+    if day_range[0] > day_range[1] or day_range[0] <= 0:
+        msg = 'argument --sick_days_min_max: Specified range: {} does not follow format [min, max] where min > 0'.format(
             day_range)
         raise argparse.ArgumentTypeError(msg)
 

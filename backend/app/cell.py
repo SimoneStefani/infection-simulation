@@ -10,6 +10,7 @@ import random
 class Cell(object):
     def __init__(self, location, prob_infect, prob_death, sick_day_range, health_status=0):
 
+        # limit range so that we cannot be sick for 0 days
         self.random_days = lambda: random.randint(sick_day_range[0], sick_day_range[1])
 
         if health_status == 1:
@@ -46,21 +47,31 @@ class Cell(object):
                 self.days_to_immune = self.random_days()
 
     # Evaluate and advance state of a cell
+    # Only returns a value if there has been a change in the health_status of a cell
     def tick(self):
-        if self.days_to_immune == 0:
-            self.health_status = -1  # Immune
+        if self.days_to_immune == 0: # Zero days left to recovery
+            self.health_status = -1  # Cell becomes immune
+            self.days_to_immune = None # Reset so that immune cell is not double counted
             return -1
 
-        elif self.health_status == 1:
-            self.health_status = 2  # Infected (Normal)
+        elif self.health_status == 1: # Recently_infected turns into ill cell
+            self.health_status = 2  # Ill cell
             return 1
 
-        elif self.health_status == 2:
+        elif self.health_status == 2: # Cell is ill
             if random.uniform(0, 1) < self.prob_death:
-                self.health_status = 3  # Dead
+                self.health_status = 3  # Cell dies
                 return 3
             else:
                 # print(self.days_to_immune)
                 # print(self.location)
                 self.days_to_immune -= 1  # Immune
-                return None  # No information to udpate
+                #return None  # No information to udpate
+
+        # A cell that is healthy or immune or dead return none (no state change)
+        # Also a cell that is ill but does not die returns none (no state change)
+
+
+
+
+
