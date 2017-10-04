@@ -16,12 +16,12 @@ class GridWorld(object):
         self.stats = {
             'daily_deaths': 0,
             'daily_recoveries': 0,
-            'daily_infections': len(infected_locations),
+            'daily_infections': 0, #len(infected_locations), # can set this to zero?
             'total_cum_deaths': 0,
-            'total_cum_infections': len(infected_locations),
+            'total_cum_infections': 0, #len(infected_locations), # can set this to zero?
             'total_cum_immune': 0,
-            'total_healthy': self.world_size ** 2 - len(infected_locations),
-            'total_sick': len(infected_locations)
+            'total_healthy': self.world_size ** 2 - len(infected_locations), # can set this to zero?
+            'total_sick': 0
         }
 
     # Create a N by N matrix and populate it with cell objects. Take care of
