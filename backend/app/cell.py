@@ -66,10 +66,10 @@ class Cell(object):
                 # print(self.days_to_immune)
                 # print(self.location)
                 self.days_to_immune -= 1  # Immune
-                #return None  # No information to udpate
+                return 2  # Cell is ill and did not change state
 
         # A cell that is healthy or immune or dead return none (no state change)
-        # Also a cell that is ill but does not die returns none (no state change)
+        # Also a cell that is ill but does not die returns 2 (although state didnt change)
 
 
 
