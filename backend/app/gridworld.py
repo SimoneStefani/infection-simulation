@@ -53,23 +53,24 @@ class GridWorld(object):
                 cell.spread_disease(neighbours)
 
         # Update statuses and check deaths, recoveries etc (end of day)
-        daily_infections = 0
-        daily_deaths = 0
-        daily_recoveries = 0
-        total_sick = 0
+        daily_infections = 0 # Number of individuals that became infected in a day (today) (i.e. recently infected)
+        daily_deaths = 0 # Number of individuals that died in a day (today)
+        daily_recoveries = 0 # Number of indv. that recovered in a day (today)
+        total_sick = 0 # Number of ill individuals per day (i.e. total ill people in a day)
+        # Assume that ill people refer to only ill cells and not recently_infected cells that are in incubation
 
         for column in self.world:
             for cell in column:
                 state = cell.tick()
 
-                if state == 1:
+                if state == 1: # Cell got infected today
                     daily_infections += 1
+                    #total_sick += 1
+                elif state == 2: # Cell is just ill (but did not change state)
                     total_sick += 1
-                elif state == 2:
-                    total_sick += 1
-                elif state == 3:
+                elif state == 3: # Cell has died today
                     daily_deaths += 1
-                elif state == -1:
+                elif state == -1: # Cell has recovered today
                     daily_recoveries += 1
 
         # Update global stats
@@ -77,12 +78,13 @@ class GridWorld(object):
         self.stats['daily_recoveries'] = daily_recoveries
         self.stats['daily_infections'] = daily_infections
 
-        self.stats['total_cum_deaths'] += daily_deaths
+        self.stats['total_cum_deaths'] += daily_deaths # once a cell is dead it cannot die again, just add
         self.stats['total_cum_infections'] += daily_infections
         self.stats['total_cum_immune'] += daily_recoveries
 
         self.stats['total_sick'] = total_sick
-        self.stats['total_healthy'] = self.world_size ** 2 - total_sick - self.stats['total_cum_deaths']
+        self.stats['total_healthy'] = self.world_size ** 2 - self.stats['total_cum_infections']
+        # Healthy is the same as not affected and hence population - affected = number of healthy
 
         return self.world
 

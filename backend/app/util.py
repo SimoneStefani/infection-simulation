@@ -10,7 +10,7 @@ import argparse
 def parse_input():
     parser = argparse.ArgumentParser()
     parser.add_argument("--world_size", help="Size of population", type=int,
-                        default=2, choices=range(2, 21))
+                        default=2, choices=range(2, 50))
     parser.add_argument('--infected_locations', nargs='+', type=int,
                         required=True, )
     parser.add_argument('--chance_of_infection', type=restricted_float,
@@ -42,8 +42,8 @@ def restricted_float(x):
 
 # Ensure that the days specified by the users follow a logical order.
 def check_day_range(day_range):
-    if day_range[0] > day_range[1]:
-        msg = 'argument --sick_days_min_max: Specified range: {} does not follow format [min, max]'.format(
+    if day_range[0] > day_range[1] or day_range[0] <= 0:
+        msg = 'argument --sick_days_min_max: Specified range: {} does not follow format [min, max] where min > 0'.format(
             day_range)
         raise argparse.ArgumentTypeError(msg)
 
