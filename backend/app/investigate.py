@@ -32,10 +32,10 @@ def main(args):
                 tick_world()
                 total_ticks += 1
                 stats = get_world_stats()
-                if stats['total_sick'] == 0:
+                if stats['total_sick'] == 0 and stats['daily_infections']:
                     break
+            reset_world() # Might not be necessary?
             # Add stats for this seed
-            
             total_affected.append(population_size - stats['total_healthy'])
             # Cell has five states, at the end of a simulation cells can only have 3
             # possible states: Healthy (unaffected), Dead or Immune. If cells are not

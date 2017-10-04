@@ -17,14 +17,14 @@ def main(args):
         tick_world()
 
         ticks += 1
-        stats = get_world_stats()
+        stats = get_world_stats() # Represent end of day stats
 
         healthy.append(stats['total_healthy'])
         sick.append(stats['total_sick'])
         dead.append(stats['total_cum_deaths'])
         cum_dead.append(stats['total_cum_deaths'])
 
-        if stats['total_sick'] == 0:
+        if stats['total_sick'] == 0 and stats['daily_infections']:
             break
 
     print('FINISHED in {0} ticks!'.format(ticks))
