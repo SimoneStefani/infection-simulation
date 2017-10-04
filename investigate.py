@@ -3,7 +3,6 @@ from util import parse_input
 import matplotlib.pyplot as plt
 import random
 import statistics # Native python library (good)
-import numpy as np
 
 
 def main(args):
@@ -53,8 +52,8 @@ def main(args):
     # Plot info here...
     plt.errorbar(infection_prob_list, mean_total_affected, yerr=std_total_affected, fmt='-o', label='num_affected')
     
-    epidemic_line = np.ones(len(infection_prob_list)) * population_size/2
-    onehundred_line = np.ones(len(infection_prob_list)) * population_size
+    epidemic_line = [population_size/2 for i in range(len(infection_prob_list))]
+    onehundred_line = [population_size for i in range(len(infection_prob_list))]
 
     plt.plot(infection_prob_list, epidemic_line, 'r--', label='Epidemic Line (50% infected)')
     plt.plot(infection_prob_list, onehundred_line, 'b--', label='100% infected')
