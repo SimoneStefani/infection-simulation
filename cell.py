@@ -56,7 +56,7 @@ class Cell(object):
 
         elif self.health_status == 1: # Recently_infected turns into ill cell
             self.health_status = 2  # Ill cell
-            return 2
+            return 1
 
         elif self.health_status == 2: # Cell is ill
             if random.uniform(0, 1) < self.prob_death:

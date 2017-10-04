@@ -47,7 +47,8 @@ class TestCell(unittest.TestCase):
     def test_a_just_infected_cell_becomes_sick(self):
         global cell
         cell.health_status = 1
-        self.assertEqual(cell.tick(), 2)
+        cell.tick()
+        self.assertEqual(cell.get_status(), 2)
 
     def test_a_sick_cell_may_die(self):
         global cell

@@ -46,9 +46,8 @@ class TestModel(unittest.TestCase):
             if stats['total_sick'] == 0 and stats['daily_infections'] == 0:
                 break
 
-        print(get_world_representation())
         stats = get_world_stats()
-        sum_states = stats['total_cum_deaths'] + stats['total_cum_immune']
+        sum_states = stats['total_cum_deaths'] + stats['total_cum_immune'] + stats['total_healthy']
         self.assertEqual(sum_states, 20*20)
 
 
