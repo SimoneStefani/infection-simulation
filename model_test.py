@@ -51,5 +51,19 @@ class TestModel(unittest.TestCase):
         self.assertEqual(sum_states, 20*20)
 
 
+    # Check that at every given day the number of deaths + immunes + healthy + 
+    # just infected + sick individuals is equal to the total population
+    def test_correct_sum_states_at_every_day(self):
+        create_world(world_size=20, infected_locations=[(1, 1)], prob_infect=0.5, prob_death=0.5, sick_day_range=[2, 6])
+
+        while True:
+            tick_world()
+            stats = get_world_stats()
+            sum_states = stats['total_cum_deaths'] + stats['total_cum_immune'] + stats['total_healthy'] + stats['total_sick'] + stats['daily_infections']
+            self.assertEqual(sum_states, 20*20)
+            if stats['total_sick'] == 0 and stats['daily_infections'] == 0:
+                break
+
+
 if __name__ == '__main__':
     unittest.main()
