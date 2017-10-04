@@ -35,3 +35,10 @@ This is an example of how to run a simulation
 ```
 python3 simulate.py --world_size 20 --infected_locations 4 5 --chance_of_infection 0.3 --chance_of_death 0.2 --sick_days_min_max 3 6
 ```
+
+### Runnig the test suite
+
+This project contains a small test suite built using `unittest`. It can be run with:
+```
+python3 -m unittest discover . "*_test.py"
+```
