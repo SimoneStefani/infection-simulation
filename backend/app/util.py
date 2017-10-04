@@ -10,7 +10,7 @@ import argparse
 def parse_input():
     parser = argparse.ArgumentParser()
     parser.add_argument("--world_size", help="Size of population", type=int,
-                        default=2, choices=range(2, 21))
+                        default=2, choices=range(2, 50))
     parser.add_argument('--infected_locations', nargs='+', type=int,
                         required=True, )
     parser.add_argument('--chance_of_infection', type=restricted_float,
