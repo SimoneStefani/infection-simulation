@@ -1,6 +1,6 @@
 from model import *
 from util import parse_input
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import random
 import statistics # Native python library (good)
 
@@ -74,20 +74,20 @@ def main(args):
         for item in seed_list:
             myfile.write("%s\n" % item)
 
-    # Plot info here...
-    plt.errorbar(infection_prob_list, mean_total_affected, yerr=std_total_affected, fmt='-o', label='num_affected')
+    # # Plot info here...
+    # plt.errorbar(infection_prob_list, mean_total_affected, yerr=std_total_affected, fmt='-o', label='num_affected')
     
-    epidemic_line = [population_size/2 for i in range(len(infection_prob_list))]
-    onehundred_line = [population_size for i in range(len(infection_prob_list))]
+    # epidemic_line = [population_size/2 for i in range(len(infection_prob_list))]
+    # onehundred_line = [population_size for i in range(len(infection_prob_list))]
 
-    plt.plot(infection_prob_list, epidemic_line, 'r--', label='Epidemic Line (50% infected)')
-    plt.plot(infection_prob_list, onehundred_line, 'b--', label='100% infected')
-    plt.axis([0, 1, -20, population_size+100])
-    plt.xlabel('Probability of infecting a neighbor %')
-    plt.ylabel('Number of infected cells')
-    plt.title('Relationship between probability of infecting a neighbor and number of infected cells')
-    plt.legend(loc='lower right')
-    plt.show()
+    # plt.plot(infection_prob_list, epidemic_line, 'r--', label='Epidemic Line (50% infected)')
+    # plt.plot(infection_prob_list, onehundred_line, 'b--', label='100% infected')
+    # plt.axis([0, 1, -20, population_size+100])
+    # plt.xlabel('Probability of infecting a neighbor %')
+    # plt.ylabel('Number of infected cells')
+    # plt.title('Relationship between probability of infecting a neighbor and number of infected cells')
+    # plt.legend(loc='lower right')
+    # plt.show()
 
 
 if __name__ == '__main__':
