@@ -11,15 +11,14 @@ def parse_input():
     parser = argparse.ArgumentParser()
     parser.add_argument("--world_size", help="Size of population", type=int,
                         default=10, choices=range(2, 100))
-    parser.add_argument('--infected_locations', nargs='+', type=int,)
+    parser.add_argument('--infected_locations', nargs='+', type=int, help='Starting locations for infected cells')
     parser.add_argument('--chance_of_infection', type=restricted_float,
-                        default=0.50)
+                        default=0.50, help='Prob. of cell infecting neighbour')
     parser.add_argument('--chance_of_death', type=restricted_float,
-                        default=0.50)
+                        default=0.50, help='Prob. of cell dying when ill')
     parser.add_argument('--sick_days_min_max', nargs='+', type=int,
-                        default=[1, 6])
-    parser.add_argument('--verbose', type=bool,
-                        default=False)
+                        default=[1, 6], help='Max/min range for sick days')
+    parser.add_argument('--verbose', action="store_true", help='Toggles statistics')
     args = parser.parse_args()
 
     check_day_range(args.sick_days_min_max)
