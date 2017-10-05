@@ -38,6 +38,9 @@ def main(args):
     plt.plot(dead, 'go', label='Dead')
     plt.plot(immune, 'o', label='Immune')
     plt.plot(total_incubated, 'o', label='Incubated')
+    plt.xlabel('Duration of simulation in days')
+    plt.ylabel('Number of cells')
+    plt.title('Dynamics of disease spreding in terms of cells status')
 
 
     plt.legend(loc='upper right')
