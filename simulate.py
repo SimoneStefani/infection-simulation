@@ -1,6 +1,6 @@
 from model import *
 from util import parse_input
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 
 def main(args):
@@ -51,16 +51,16 @@ def main(args):
         print()
 
         # Plot Results
-        plt.plot(range(ticks), sick, 'ro', label='Sick')
-        plt.plot(healthy, 'bo', label='Healthy')
-        plt.plot(dead, 'go', label='Dead')
-        plt.plot(immune, 'o', label='Immune')
-        plt.plot(total_incubated, 'o', label='Incubated')
-        plt.xlabel('Duration of simulation in days')
-        plt.ylabel('Number of cells')
-        plt.title('Dynamics of disease spreding in terms of cells status')
-        plt.legend(loc='upper right')
-        plt.show()
+        # plt.plot(range(ticks), sick, 'ro', label='Sick')
+        # plt.plot(healthy, 'bo', label='Healthy')
+        # plt.plot(dead, 'go', label='Dead')
+        # plt.plot(immune, 'o', label='Immune')
+        # plt.plot(total_incubated, 'o', label='Incubated')
+        # plt.xlabel('Duration of simulation in days')
+        # plt.ylabel('Number of cells')
+        # plt.title('Dynamics of disease spreding in terms of cells status')
+        # plt.legend(loc='upper right')
+        # plt.show()
 
 
 if __name__ == '__main__':
