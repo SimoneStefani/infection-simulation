@@ -56,6 +56,8 @@ def main(args):
         # print(statistics.stdev(total_affected))
         # print('Mean is: {0}'.format(statistics.mean(total_affected)))
 
+    # Store raw results
+    
 
     # Plot info here...
     plt.errorbar(infection_prob_list, mean_total_affected, yerr=std_total_affected, fmt='-o', label='num_affected')
@@ -66,10 +68,10 @@ def main(args):
     plt.plot(infection_prob_list, epidemic_line, 'r--', label='Epidemic Line (50% infected)')
     plt.plot(infection_prob_list, onehundred_line, 'b--', label='100% infected')
     plt.axis([0, 1, -20, population_size+100])
-    plt.xlabel('Probability of infecting %')
-    plt.ylabel('Number of affected cells')
-    plt.title('Prob. infect vs. num_affected cells')
-    plt.legend(loc='center right')
+    plt.xlabel('Probability of infecting a neighbor %')
+    plt.ylabel('Number of infected cells')
+    plt.title('Relationship between probability of infecting a neighbor and number of infected cells')
+    plt.legend(loc='bottom right')
     plt.show()
 
 
