@@ -24,6 +24,7 @@ def main(args):
 
     population_size = args.world_size ** 2 # Total number of cells
     for infection_prob in infection_prob_list:
+        print('Now calculating for prob: {}'.format(infection_prob))
         # Statistics at the end of each simulation
         total_affected = [] # How many cells got infected
         for seed in seed_list:
@@ -57,7 +58,7 @@ def main(args):
         # print('Mean is: {0}'.format(statistics.mean(total_affected)))
 
     # Store raw results
-    
+
 
     # Plot info here...
     plt.errorbar(infection_prob_list, mean_total_affected, yerr=std_total_affected, fmt='-o', label='num_affected')
@@ -71,7 +72,7 @@ def main(args):
     plt.xlabel('Probability of infecting a neighbor %')
     plt.ylabel('Number of infected cells')
     plt.title('Relationship between probability of infecting a neighbor and number of infected cells')
-    plt.legend(loc='bottom right')
+    plt.legend(loc='lower right')
     plt.show()
 
 
