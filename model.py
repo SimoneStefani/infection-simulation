@@ -61,13 +61,13 @@ def get_world_stats():
 # Print in command line the statistics of the current day.
 def print_statistics():
     stats = get_world_stats()
-
+    print('Daily infections: {0}'.format(stats['daily_infections']))
     print('Daily deaths: {0}'.format(stats['daily_deaths']))
     print('Daily recoveries: {0}'.format(stats['daily_recoveries']))
-    print('Daily infections: {0}'.format(stats['daily_infections']))
-    print('-' * 40)
-    print('Total sick people: {0}'.format(stats['total_sick']))
-    print('Total healthy people: {0}'.format(stats['total_healthy']))
-    print('Total dead people: {0}'.format(stats['total_cum_deaths']))
-    print('Total immune people: {0}'.format(stats['total_cum_immune']))
+    print('Total number of ill people: {0}'.format(stats['total_sick']))
+    print('Total cumulative infections: {0}'.format(stats['total_cum_infections']))
+    print('Total cumulative deaths: {0}'.format(stats['total_cum_deaths']))
     print()
+    
+    
+    
