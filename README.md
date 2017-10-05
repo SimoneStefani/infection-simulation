@@ -1,45 +1,44 @@
-# djangovue
-![Vue.js Logo](https://github.com/mikebz/djangovue/raw/master/frontend/img/logo.png "Vue.js")
+#### Royal Institute of Technology KTH - Stockholm
+# Simulation of an Infectious Disease (II1304)
 
-This is a starter project for Django with Vue.js.  I fell in love with the readability you get in Vue.js and 
-decided to create a project where all components are laid out in the most readable way.
+This small project consists in designing and experimenting with a simple model for a stochastic simulation on how an infectious disease could spread in a population. 
 
-Note that this doesn't have features like hot reloading for webpack, but it's a good webpack starting point to build on.
-
-## How to get started?
-1. Get a copy of the repo on your machine
-```
-git clone https://github.com/mikebz/djangovue.git
-cd djangovue
+### How to get started?
+1. Get a copy of this repository on your machine
+```bash
+git clone https://github.com/SimoneStefani/infection-simulation.git
+cd infection-simulation
 ```
 
-2. Set up virtual environment
-```
+2. Set up virtual environment (highly suggested)
+```bash
 python3 -m venv venv
 source venv/bin/activate
 ```
 
-3. Install the necessary libraries.
-```
-pip install -r requirements.txt
-npm install
-```
-
-4. Build the Vue.js front end.
-```
-npm run build
+3. Install the necessary libraries
+```bash
+pip3 install -r requirements.txt
 ```
 
-5. Run the Django project
-```
-python3 manage.py runserver
+
+### Runnig the simulation
+
+To run the simulation from command line execute the `simulate.py` file. This command accepts several arguments but only few are required:
+* `infected_locations` (required), the positions of infected individuals
+* `world_size` (required), the size of the population
+* `chance_of_infection`, probability of an individual to get infected
+* `chance_of_death`, probability of an individual of dying on a sick day
+* `sick_days_min_max`, amount of days an individual can be sick
+
+This is an example of how to run a simulation
+```bash
+python3 simulate.py --world_size 20 --infected_locations 4 5 --chance_of_infection 0.3 --chance_of_death 0.2 --sick_days_min_max 3 6
 ```
 
-At this point in time you should be able to navigate to your localhost:8000 and see a template rendered.  You can also run
-the `npm run watch` in a separate window if you want to rebuild your frontend.  Note that for simplicity there is no hot
-reloading so you would need to refresh the page when you save your front end files.
+### Runnig the test suite
 
-## Sources
-This only worked because people before me created some wonderful examples.
-- https://github.com/djstein/vue-django-webpack
-- https://github.com/ezhome/django-webpack-loader
+This project contains a small test suite built using `unittest`. It can be run with:
+```bash
+python3 -m unittest discover . "*_test.py"
+```

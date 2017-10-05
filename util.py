@@ -57,7 +57,7 @@ def check_locations(locations, world_size):
         raise argparse.ArgumentTypeError(msg)
 
     for coordinate in locations:
-        if coordinate not in range(0, world_size + 1):
-            msg = 'argument --locations: coordinate {0} must be in range [0,{1}]'.format(
-                coordinate, world_size)
+        if coordinate not in range(0, world_size):
+            msg = 'argument --locations: invalid coordinate {0}: must be in range [0,{1}]'.format(
+                coordinate, world_size-1)
             raise argparse.ArgumentTypeError(msg)
