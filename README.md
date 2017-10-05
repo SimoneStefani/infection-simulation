@@ -18,7 +18,7 @@ source venv/bin/activate
 
 3. Install the necessary libraries
 ```bash
-pip3 install -r requirements.txt
+pip3 install matplotlib
 ```
 
 
@@ -30,10 +30,16 @@ To run the simulation from command line execute the `simulate.py` file. This com
 * `chance_of_infection`, probability of an individual to get infected
 * `chance_of_death`, probability of an individual of dying on a sick day
 * `sick_days_min_max`, amount of days an individual can be sick
+* `verbose` instructs the program to print statistical details for every day in the simulation and a final report
+
+In order to run the simulation with default values:
+```bash
+python3 simulate.py --verbose
+```
 
 This is an example of how to run a simulation
 ```bash
-python3 simulate.py --world_size 20 --infected_locations 4 5 --chance_of_infection 0.3 --chance_of_death 0.2 --sick_days_min_max 3 6
+python3 simulate.py --world_size 20 --infected_locations 4 5 --chance_of_infection 0.3 --chance_of_death 0.2 --sick_days_min_max 3 6 --verbose
 ```
 
 ### Runnig the test suite
