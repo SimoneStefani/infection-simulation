@@ -36,12 +36,11 @@ def main(args):
     plt.plot(range(ticks), sick, 'ro', label='Sick')
     plt.plot(healthy, 'bo', label='Healthy')
     plt.plot(dead, 'go', label='Dead')
-    plt.plot(sick, 'ro', label='Sick')
     plt.plot(immune, 'o', label='Immune')
     plt.plot(total_incubated, 'o', label='Incubated')
 
 
-    plt.legend(loc='center right')
+    plt.legend(loc='upper right')
 
     plt.show()
 
