@@ -58,7 +58,21 @@ def main(args):
         # print('Mean is: {0}'.format(statistics.mean(total_affected)))
 
     # Store raw results
+    print('Means: {}'.format(mean_total_affected))
+    print()
+    print('Stds: {}'.format(std_total_affected))
 
+    with open('./mean_data.txt', 'w') as myfile:
+        for item in mean_total_affected:
+            myfile.write("%s\n" % item)
+
+    with open('./stds_data.txt', 'w') as myfile:
+        for item in std_total_affected:
+            myfile.write("%s\n" % item)
+
+    with open('./seed_data.txt', 'w') as myfile:
+        for item in seed_list:
+            myfile.write("%s\n" % item)
 
     # Plot info here...
     plt.errorbar(infection_prob_list, mean_total_affected, yerr=std_total_affected, fmt='-o', label='num_affected')
